@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE_DETAIL, MOVIES_ERROR } from "../types";
+import { GET_MOVIES, GET_MOVIE_DETAIL } from "../types";
 
 const initialState = {
   data: [],
@@ -18,11 +18,6 @@ function movieReducer(state = initialState, action) {
         ...state,
         data: action.payload,
         loading: false,
-      };
-    case MOVIES_ERROR:
-      return {
-        loading: false,
-        error: action.payload,
       };
     default:
       return state;

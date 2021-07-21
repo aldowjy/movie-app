@@ -31,7 +31,7 @@ const MovieDetail = (route) => {
 
   useEffect(() => {
     dispatch(getMovieDetail(route.match.params.id));
-  });
+  }, [dispatch, route.match.params.id]);
 
   if (loading) {
     return (

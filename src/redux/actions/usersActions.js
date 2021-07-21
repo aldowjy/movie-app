@@ -1,4 +1,4 @@
-import { GET_MOVIES, GET_MOVIE_DETAIL, MOVIES_ERROR } from "../types";
+import { GET_MOVIES, GET_MOVIE_DETAIL } from "../types";
 import axios from "axios";
 
 export const getMovies = (title, page) => async (dispatch) => {
@@ -6,15 +6,15 @@ export const getMovies = (title, page) => async (dispatch) => {
     const res = await axios.get(
       `http://www.omdbapi.com?apikey=faf7e5bb&s=${title}&page=${page}`
     );
+
     dispatch({
       type: GET_MOVIES,
-      payload: res.data.Search,
+      payload: res.data,
     });
+
+    return Promise.resolve(res.data);
   } catch (e) {
-    dispatch({
-      type: MOVIES_ERROR,
-      payload: console.log(e),
-    });
+    return Promise.reject(e);
   }
 };
 
@@ -23,14 +23,12 @@ export const getMovieDetail = (id) => async (dispatch) => {
     const res = await axios.get(
       `http://www.omdbapi.com?apikey=faf7e5bb&i=${id}`
     );
+
     dispatch({
       type: GET_MOVIE_DETAIL,
       payload: res.data,
     });
   } catch (e) {
-    dispatch({
-      type: MOVIES_ERROR,
-      payload: console.log(e),
-    });
+    console.log(e);
   }
 };
