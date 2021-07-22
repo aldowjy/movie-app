@@ -4,7 +4,7 @@ import axios from "axios";
 export const getMovies = (title, page) => async (dispatch) => {
   try {
     const res = await axios.get(
-      `http://www.omdbapi.com?apikey=faf7e5bb&s=${title}&page=${page}`
+      `https://www.omdbapi.com?apikey=faf7e5bb&s=${title}&page=${page}`
     );
 
     dispatch({
@@ -21,7 +21,7 @@ export const getMovies = (title, page) => async (dispatch) => {
 export const getMovieDetail = (id) => async (dispatch) => {
   try {
     const res = await axios.get(
-      `http://www.omdbapi.com?apikey=faf7e5bb&i=${id}`
+      `https://www.omdbapi.com?apikey=faf7e5bb&i=${id}`
     );
 
     dispatch({
