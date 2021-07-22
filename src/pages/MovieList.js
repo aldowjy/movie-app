@@ -46,11 +46,14 @@ const MovieList = () => {
     observer.current = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting && hasMore) {
         if (pages < totalPage) {
-          dispatch(getMovies(title, pages)).then((response) => {
-            setItems([...items, ...response.Search]);
-            setHasMore(true);
-            setPages((pages) => pages + 1);
-          });
+          dispatch(getMovies(title, pages))
+            .then((response) => {
+              setTotalPage(Math.round(response.totalResults / 10));
+              setItems([...items, ...response.Search]);
+              setHasMore(true);
+              setPages((pages) => pages + 1);
+            })
+            .catch((error) => console.log(error));
         } else {
           setHasMore(false);
         }
@@ -68,17 +71,16 @@ const MovieList = () => {
       return;
     }
 
-    dispatch(getMovies(title, 1)).then((response) => {
-      setTitle(title);
-      setTotalPage(Math.round(response.totalResults / 10));
-      setItems([...response.Search]);
-      setHasMore(true);
-      setPages(1);
-    });
+    dispatch(getMovies(title, 1))
+      .then((response) => {
+        setTitle(title);
+        setTotalPage(Math.round(response.totalResults / 10));
+        setItems([...response.Search]);
+        setHasMore(true);
+        setPages(1);
+      })
+      .catch((error) => console.log(error));
   }
-
-  if (data.Response === "False")
-    return <Alert severity="error">{data.Error}</Alert>;
 
   return (
     <>
@@ -108,6 +110,10 @@ const MovieList = () => {
       </form>
       {loading ? (
         <MainLoader />
+      ) : data.Response === "False" ? (
+        <Alert severity="error" style={{ marginTop: 15 }}>
+          {data.Error}
+        </Alert>
       ) : (
         <Grid container spacing={6}>
           {items.map((movie, index) =>
